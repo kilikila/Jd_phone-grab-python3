@@ -34,19 +34,31 @@ class PhDriver(object):
             #print("获取网页")
 
     def triggerElements(self, loc_str, tri_type, method,time_out=10):
-        '''根据xxx/xxx/xxx形式的字符串找寻元素并触发元素返回源页面，redirect_tag为函数或者秒数'''
+        '''根据xxx/xxx/xxx形式的class字符串找寻元素并触发元素返回源页面，redirect_tag为函数或者秒数'''
+        '''根据 css 字符串找寻元素并触发元素返回源页面，redirect_tag为函数或者秒数'''
         if not self.activeTag:return None
 
-        ele_=None
+        ele_ = None
+
         if loc_str!="":
-            class_loc = loc_str.split("/")
-            ele_=self.driver
+            ele_ = self.driver
             try:
-                for ele_str in class_loc:
-                    ele_=ele_.find_element_by_class_name(ele_str)
-            except:
-                raise "元素触发错误,寻找触发元素失败"
+                ele_ = ele_.find_element_by_css_selector(loc_str)
+            except :
+                raise "元素触发错误,寻找触发元素失败，请检查定位css" % loc_str
                 return False
+
+        '''
+              if loc_str!="":
+                  class_loc = loc_str.split("/")
+                  ele_=self.driver
+                  try:
+                      for ele_str in class_loc:
+                          ele_=ele_.find_element_by_class_name(ele_str)
+                  except:
+                      raise "元素触发错误,寻找触发元素失败"
+                      return False
+      '''
 
 
         if tri_type=="click":
@@ -72,6 +84,12 @@ class PhDriver(object):
             time.sleep(method)
             return self.driver.page_source
 
+    def getElementByCss(self,loc_str):
+        try:
+            return self.driver.find_element_by_css_selector(loc_str)
+        except:
+            print("%s 所定位的元素寻找失败，请检查定位css字符串或者其他什么的，哈哈" % loc_str)
+            return False
 
     def close(self):
         self.activeTag = False
