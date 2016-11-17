@@ -84,7 +84,7 @@ def getShops(url,index):
     shop_hrefs=[]  #店铺url列表
 
     while True:
-        page_t = driver_th.triggerElements("", "scroll_RB",lambda dri_p: driver_th.getElementByCss("J_scroll_loading"))
+        page_t = driver_th.triggerElements("", "scroll_RB",lambda dri_p: not driver_th.getElementByCss("#J_scroll_loading"))
         if not page_t:
             print("--%s--  进入下一页失败" % str(index))  # 进入下一页失败退出当前线程循环
             break
@@ -107,7 +107,7 @@ def getShops(url,index):
             # 待修改，暂停修改为判断是否主线程然后进行线程暂停
             page_i=bsObj.find("div",id="J_bottomPage").find("a",class_="curr").get_text()
             print("-----text-----"+page_i)
-            result_t=driver_th.triggerElements(".pn-next", "click",lambda dri :driver_th.getElementByCss("#J_bottomPage>.curr").text!=page_i)#--------------------
+            result_t=driver_th.triggerElements(".pn-next", "click",lambda dri :driver_th.getElementByCss("#J_bottomPage .curr").text!=page_i)#--------------------
             if not result_t:
                 print("--%s--  进入下一页失败"%str(index)) #进入下一页失败退出当前线程循环
                 break
@@ -147,13 +147,13 @@ def getGoodsInfo(url,index_brand,index_shop):
     #
 
     #移动到介绍栏--------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(0)", "click", lambda dri:div.ETab>tab-con)
+   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(0)", "click", lambda dri:div.ETab>tab-con)
 
     #移动到规格栏-------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(1)", "click", lambda dri: True)
+   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(1)", "click", lambda dri: True)
 
     #移动到评价栏-----------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(2)", "click", lambda dri: True)
+    #result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(2)", "click", lambda dri: True)
 
     pass
 

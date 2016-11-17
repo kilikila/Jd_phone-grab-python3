@@ -85,11 +85,14 @@ class PhDriver(object):
             return self.driver.page_source
 
     def getElementByCss(self,loc_str):
+        ele_=None
         try:
-            return self.driver.find_element_by_css_selector(loc_str)
+            ele_=self.driver.find_element_by_css_selector(loc_str)
         except:
             print("%s 所定位的元素寻找失败，请检查定位css字符串或者其他什么的，哈哈" % loc_str)
             return False
+        else:
+            return ele_
 
     def close(self):
         self.activeTag = False
