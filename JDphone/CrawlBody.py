@@ -2,9 +2,9 @@ from os import _exit
 
 from bs4 import BeautifulSoup
 
-from BrowerDriver import  PhDriver
-from DAO.DB_mysql import DB_Mysql
-from DAO.FileSave import SaveFile
+from JDphone.BrowerDriver import PhDriver
+from JDphone.DAO.DB_mysql import DB_Mysql
+from JDphone.DAO.FileSave import SaveFile
 
 config = {
     'host':'localhost',
@@ -36,7 +36,7 @@ imgSave= SaveFile(img_dirs)
 
 def getBrand():
     db.creatTable("Brand",{"BrandName":"varchar(40)","imgUrl":"varchar(60)"})
-    driver.triggerElements("J_selectorLine/sl-e-more","click",lambda dri:BeautifulSoup(dri.page_source, "html.parser").find("li",id="brand-32315"))
+    driver.triggerElements(".J_selectorLine .sl-e-more","click",lambda dri:BeautifulSoup(dri.page_source, "html.parser").find("li",id="brand-32315"))
 
     bsObj=BeautifulSoup(driver.getPgSrc(), "html.parser")
     driver.close()
@@ -75,15 +75,6 @@ def getBrand():
 
     getShops(phone_hrefs[0],0)#开始获取每家店铺
 
-def idExist(dri,id_str):
-    try:
-        dri.find_element_by_id(id_str)
-    except:
-        print("%s 元素已消失"%id_str)
-        return True
-    else:
-        return False
-
 def getShops(url,index):
     url_phone=main_href + url
     driver_th = PhDriver(phantomjs_path, url_phone, "J_main")  # 浏览器驱动器--线程用--移动到某品牌主页面
@@ -93,7 +84,7 @@ def getShops(url,index):
     shop_hrefs=[]  #店铺url列表
 
     while True:
-        page_t = driver_th.triggerElements("", "scroll_RB",lambda dri_p: idExist(dri_p,"J_scroll_loading"))
+        page_t = driver_th.triggerElements("", "scroll_RB",lambda dri_p: driver_th.getElementByCss("J_scroll_loading"))
         if not page_t:
             print("--%s--  进入下一页失败" % str(index))  # 进入下一页失败退出当前线程循环
             break
@@ -116,8 +107,7 @@ def getShops(url,index):
             # 待修改，暂停修改为判断是否主线程然后进行线程暂停
             page_i=bsObj.find("div",id="J_bottomPage").find("a",class_="curr").get_text()
             print("-----text-----"+page_i)
-            result_t=driver_th.triggerElements("pn-next", "click",lambda dri : dri.find_element_by_id("J_bottomPage")\
-                         .find_element_by_class_name("curr").text!=page_i)#--------------------
+            result_t=driver_th.triggerElements(".pn-next", "click",lambda dri :driver_th.getElementByCss("#J_bottomPage>.curr").text!=page_i)#--------------------
             if not result_t:
                 print("--%s--  进入下一页失败"%str(index)) #进入下一页失败退出当前线程循环
                 break
@@ -157,10 +147,13 @@ def getGoodsInfo(url,index_brand,index_shop):
     #
 
     #移动到介绍栏--------------
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(0)", "click", lambda dri:div.ETab>tab-con)
 
     #移动到规格栏-------------
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(1)", "click", lambda dri: True)
 
     #移动到评价栏-----------------
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(2)", "click", lambda dri: True)
 
     pass
 
