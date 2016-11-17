@@ -145,15 +145,15 @@ def getGoodsInfo(url,index_brand,index_shop):
     #
     #
     #
-
+#------------------使用bs4获取数据----------------------
     #移动到介绍栏--------------
-   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(0)", "click", lambda dri:div.ETab>tab-con)
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(0)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     #移动到规格栏-------------
-   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(1)", "click", lambda dri: True)
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(1)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     #移动到评价栏-----------------
-    #result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul:nth-child(2)", "click", lambda dri: True)
+    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(2)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     pass
 
