@@ -24,7 +24,7 @@ driver=None
 
 def main():
     '''主函数'''
-    #
+    #点开更多下拉列表
     print(driver.find_element_by_class_name("J_selectorLine").find_element_by_class_name("sl-e-more").click())
     time.sleep(3)
    # print(driver.page_source)

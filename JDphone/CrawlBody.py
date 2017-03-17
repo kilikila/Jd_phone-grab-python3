@@ -2,7 +2,7 @@ from os import _exit
 
 from bs4 import BeautifulSoup
 
-from JDphone.BrowerDriver import PhDriver
+from JDphone.CrawlDrivers.BrowerDriver import PhDriver
 from JDphone.DAO.DB_mysql import DB_Mysql
 from JDphone.DAO.FileSave import SaveFile
 
@@ -84,7 +84,9 @@ def getShops(url,index):
     shop_hrefs=[]  #店铺url列表
 
     while True:
+       #促使页面被全部加载
         page_t = driver_th.triggerElements("", "scroll_RB",lambda dri_p: not driver_th.getElementByCss("#J_scroll_loading"))
+
         if not page_t:
             print("--%s--  进入下一页失败" % str(index))  # 进入下一页失败退出当前线程循环
             break
@@ -94,11 +96,12 @@ def getShops(url,index):
         shop_lis=bsObj.find("div",id="J_goodsList").find_all('li',{"data-sku":True})
         for li_t in shop_lis:
             try:
-                shop_hrefs.append(li_t.find('div',{"class":{"p-name"}}).a['href'])
+                shop_hrefs.append(li_t.find('div',{"class":{"p-name"}}).a['href']) #获取店铺链接
             except AttributeError as at:
                 print("get shop error")
                 continue
 
+        #判断是否有下一页
         print("---t---"+str(len(shop_hrefs)))
         print(bsObj.find("a",class_="pn-next")["class"])
         if len(bsObj.find("a",class_="pn-next")["class"])>=2 :
@@ -122,7 +125,7 @@ def getShops(url,index):
     # 获取当前shop数-遍历获取url
     getGoodsInfo(shop_hrefs[0],index,0)
 
-def getGoodsInfo(url,index_brand,index_shop):
+def  getGoodsInfo(url,index_brand,index_shop):
     '''进行页面信息的详细扒取，参数，款式，图片，评价，评论数'''
     '''需要进行商品参数的规范化存储'''
     url_shop = "http:" + url
@@ -147,13 +150,13 @@ def getGoodsInfo(url,index_brand,index_shop):
     #
 #------------------使用bs4获取数据----------------------
     #移动到介绍栏--------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(0)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
+   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(0)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     #移动到规格栏-------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(1)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
+   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(1)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     #移动到评价栏-----------------
-    result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(2)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
+   # result_t = driver_th.triggerElements("div.ETab>div.tab-main>ul>li:nth-child(2)", "click", lambda dri:driver_th.getElementByCss("div.ETab>div.tab-con"))
 
     pass
 

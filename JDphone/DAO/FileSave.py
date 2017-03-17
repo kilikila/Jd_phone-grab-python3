@@ -31,6 +31,9 @@ class SaveFile(object):
         except FileNotFoundError as fnf:
             print("存储错误："+path_s+" "+fnf.strerror)
             return False
+        except Exception as e:
+            print("下载失败：" + path_s + " " + repr(e))
+            return False
         return True
 
         #判断文件、目录是否已存在----------------------

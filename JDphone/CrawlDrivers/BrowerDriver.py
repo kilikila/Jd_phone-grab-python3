@@ -24,8 +24,9 @@ class PhDriver(object):
         self.driver.get(url)
         try:
             element = WebDriverWait(self.driver, 4).until(EC.presence_of_element_located((By.ID, id_str)))
-        except:
+        except Exception as e:
             # print(driver.find_element_by_id("content").text)
+            print("获取页面失败--" + repr(e))
             self.driver.close()
             return None
         else:
@@ -44,8 +45,8 @@ class PhDriver(object):
             ele_ = self.driver
             try:
                 ele_ = ele_.find_element_by_css_selector(loc_str)
-            except :
-                raise "元素触发错误,寻找触发元素失败，请检查定位css" % loc_str
+            except Exception as e:
+                print("元素触发错误,寻找触发元素失败，请检查定位css%s--" % loc_str + repr(e))
                 return False
 
         '''
@@ -88,8 +89,8 @@ class PhDriver(object):
         ele_=None
         try:
             ele_=self.driver.find_element_by_css_selector(loc_str)
-        except:
-            print("%s 所定位的元素寻找失败，请检查定位css字符串或者其他什么的，哈哈" % loc_str)
+        except Exception as e:
+            print("%s 所定位的元素寻找失败，请检查定位css字符串或者其他什么的，哈哈--" % loc_str + repr(e))
             return False
         else:
             return ele_
