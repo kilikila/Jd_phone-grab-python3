@@ -1,4 +1,5 @@
 import os
+import urllib.request
 from urllib.request import urlretrieve
 
 class SaveFile(object):
@@ -28,6 +29,7 @@ class SaveFile(object):
             url="https:"+url
         try:
             urlretrieve(url,self.home+path_s+img_type)
+            #self.downLoader(url,self.home+path_s+img_type)
         except FileNotFoundError as fnf:
             print("存储错误："+path_s+" "+fnf.strerror)
             return False
@@ -37,6 +39,18 @@ class SaveFile(object):
         return True
 
         #判断文件、目录是否已存在----------------------
+    #"common","name","dLoadUrl"
+    def downLoader(self,url,savepath):
+        user_agent = "Mozilla / 5.0(WindowsNT10.0;WOW64) AppleWebKit / 537.36(KHTML, likeGecko) Chrome / 55.0.2883.87Safari / 537.36"
+        try:
+            req = urllib.request.Request(url)
+            req.add_header('User-agent', user_agent)
+            f = urllib.request.urlopen(req,timeout=3)
+            data = f.read()
+            with open(savepath, 'wb') as code:
+                code.write(data)
+        except:
+            print(url+"  --失败--")
 
 
 if __name__ == '__main__':

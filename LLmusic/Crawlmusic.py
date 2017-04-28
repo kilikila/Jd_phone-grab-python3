@@ -91,7 +91,7 @@ def commonCrawl(edIndex,orgHref,i_lock):
         # 获取父元素->获取分类标签->判断是否音乐元素->放弃
         for audioTag in audioList:
             name = dloadUrl = title = text = ""
-            try:
+            try:   #get用于多数据集合findAll().get("xx")->list
                 dloadUrl = audioTag.get('src') or audioTag.source.get('src') or " "#audioTag['src'] or audioTag.source['src'] #音乐下载地址**
                 div=audioTag.find_parent("div",class_="entry-content") #父div元素
                 article=div and div.find_parent("article") #article父元素

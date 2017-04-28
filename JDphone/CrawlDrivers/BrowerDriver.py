@@ -86,6 +86,7 @@ class PhDriver(object):
             return self.driver.page_source
 
     def getElementByCss(self,loc_str):
+        # #id.class #
         ele_=None
         try:
             ele_=self.driver.find_element_by_css_selector(loc_str)
